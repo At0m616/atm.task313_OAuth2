@@ -21,17 +21,13 @@ fetch("http://localhost:8080/api/users").then(
 
 function showUsers(event) {
     let temp = ""
-    let tempRole = ""
     console.log(event)
 
     event.forEach((user) => {
         let userRole = "";
         for (let i = 0; i < user.roles.length; i++) {
-            userRole += " " + user.roles[i].name;
+            userRole += " " + user.roles[i].name.substring(5);
         }
-        // JSON.parse(JSON.stringify(user.roles)).forEach((role) => {
-        //     tempRole += role.name.substring(5) + ' '
-        // })
         temp += `<tr data-id="${user.id}" id="tr-user-${user.id}">
                             <td class="mainTabId" id="mainTabId${user.id}">${user.id}</td>
                             <td class="mainTabFirstname" id="mainTabFirstname-${user.id}">${user.firstname}</td>
@@ -60,23 +56,15 @@ document.getElementById('addNewUser').addEventListener('submit', submitFormNewUs
 
 function submitFormNewUser(event) {
     event.preventDefault();
-    let setRoles = (someRoles) => {
-        let roles = [];
-        if (someRoles.includes("ROLE_ADMIN")) {
-            roles.push({id: 1, name: "ROLE_ADMIN", authority: "ROLE_ADMIN"})
-        }
-        if (someRoles.includes("ROLE_USER")) {
-            roles.push({id: 2, name: "ROLE_USER", authority: "ROLE_USER"})
-        }
-        return roles;
-    }
+    // let rol = document.querySelector('#newRoles').getElementsByTagName('option')
+
     let newUser = {
         firstname: $("#newFirstName").val(),
         lastname: $("#newLastName").val(),
         age: $("#newAge").val(),
         username: $("#newEmail").val(),
         password: $("#newPassword").val(),
-        roles: setRoles(Array.from(document.querySelector('#newRoles').selectedOptions)).map(value => value.value)
+        roles: $("#newRoles").val()
     }
 
     fetch("http://localhost:8080/api/users", {

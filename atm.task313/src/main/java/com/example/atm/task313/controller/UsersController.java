@@ -1,6 +1,5 @@
 package com.example.atm.task313.controller;
 
-import com.example.atm.task313.model.User;
 import com.example.atm.task313.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

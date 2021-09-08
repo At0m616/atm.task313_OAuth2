@@ -62,15 +62,15 @@ public class AdminRest {
         return new ResponseEntity<>(user,HttpStatus.CREATED);
     }
 
-    @PutMapping("/users/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable("userId") Long id, @RequestBody UserSimpleDto userDto) {
+    @PutMapping("/users")
+    public ResponseEntity<User> updateUser(@RequestBody UserSimpleDto userDto) {
         var user = new User(userDto);
         Set<Role> roleSet = new HashSet<>();
         for (String roleName : userDto.getRoles()) {
             roleSet.add(roleService.findByName(roleName));
         }
         user.setRoles(roleSet);
-        user.setId(id);
+        user.setId(userDto.getId());
         userService.updateUser(user);
         var updatedUser = userService.findUserById(user.getId());
 

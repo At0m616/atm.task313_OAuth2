@@ -17,11 +17,11 @@
 
 <!-- Navbar content head-->
 <nav class="navbar navbar-dark bg-dark btn-lg">
-<!--    <div>-->
-<!--        <b><a style="color: #eaeaea" th:utext="${user.username}">username</a></b>-->
-<!--        <a style="color: #eaeaea">with roles: </a>-->
-<!--        <b><a style="color: #eaeaea" th:utext="${user.roles.toString().replace('[', '').replace(']', '')}">roles</a></b>-->
-<!--    </div>-->
+    <div>
+        <b><a style="color: #eaeaea" th:utext="${user.username}">username</a></b>
+        <a style="color: #eaeaea">with roles: </a>
+        <b><a style="color: #eaeaea" th:utext="${user.roles.toString().replace('[', '').replace(']', '')}">roles</a></b>
+    </div>
     <a style="color: darkgray" th:href="@{/logout}">Logout</a>
 </nav>
 <!-- Navbar content ends-->
@@ -35,14 +35,13 @@
         <div class="col-lg-2 col-sm-2 bg-white sidebar flex-column" style="padding-left: 0px; padding-right: 0px">
             <br>
             <ul class="nav nav-pills flex-column">
-
                 <div class="list-group" id="list-tab" role="tablist" aria-orientation="vertical">
                     <a class="list-group-item list-group-item-action active"
-                       id="list-admin-list" data-toggle="list" href="#adminTab"
-                       role="tab" aria-controls="admin">Admin</a>
+                       id="list-admin-list"  href="/admin"
+                       role="tab" >Admin</a>
                     <a class="list-group-item list-group-item-action"
-                       id="list-user-list" data-toggle="list" href="#list-user"
-                       role="tab" aria-controls="user">User</a>
+                       id="list-user-list"  href="/user"
+                       role="tab" >User</a>
                 </div>
             </ul>
 
@@ -173,28 +172,14 @@
                             </div>
                     </div>
                 </div>
-            </div>
 
+
+            </div>
         </div>
 
     </div>
 
 </div>
-
-<!--<form>-->
-<!--    &lt;!&ndash; Button trigger modal &ndash;&gt;-->
-<!--    <button type="button" class="btn btn-info" data-toggle="modal"-->
-<!--            th:data-target="'#Edit'+ ${user.id}">Edit-->
-<!--    </button>-->
-<!--</form>-->
-<!--</td>-->
-<!--<td>-->
-<!--    <form>-->
-<!--        &lt;!&ndash; Button trigger modal &ndash;&gt;-->
-<!--        <button type="button" class="btn btn-danger" data-toggle="modal"-->
-<!--                th:data-target="${'#Delete'+ user.id}">Delete-->
-<!--        </button>-->
-<!--    </form>-->
 
     <!-- Modal EDIT-->
     <form class="modal-edit-form" id="modal-edit-form">
@@ -253,8 +238,8 @@
                         <select multiple size="3" class="form-control"
                                 id="editRoles"
                                 name="roles" required>
-                            <option value= 1> ADMIN </option>
-                            <option value= 2> USER </option>
+                            <option value= "ROLE_ADMIN"> ADMIN </option>
+                            <option value= "ROLE_USER"> USER </option>
                         </select>
                     </div>
 
@@ -353,6 +338,8 @@
     </div>
                     </form>
     <!-- Modal DELETE ends-->
+
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

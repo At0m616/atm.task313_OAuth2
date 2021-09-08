@@ -79,6 +79,7 @@ public class UserServiceImpl implements UserService {
         userFindDB.setLastname(user.getLastname());
         userFindDB.setAge(user.getAge());
         userFindDB.setUsername(user.getUsername());
+        userFindDB.setRoles(user.getRoles());
         if (user.getPassword().equals("") || user.getPassword() == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }else {

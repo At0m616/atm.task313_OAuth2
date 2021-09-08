@@ -33,7 +33,6 @@ public class AdminController {
         model.addAttribute("listRoles", roleService.findAllRoles());
 
         List<User> userList = userService.findAllUsers();
-//        userList.sort(Comparator.comparing(User::getUsername));
         model.addAttribute("listU", userList);
 
         model.addAttribute("user", user);
@@ -41,32 +40,7 @@ public class AdminController {
         return "admin-page";
     }
 
-//
-//    @PostMapping("/user")
-//    public String createNewUser(@ModelAttribute("user") @Valid User userForm, BindingResult bindingResult,
-//                                @RequestParam(required = false, name = "roles") Long[] rolesId) {
-//        if (bindingResult.hasErrors()) {
-//            return "admin-page";
-//        }
-//        userService.saveUser(userForm);
-//
-//        return "redirect:/admin";
-//    }
-//
-//
-//    @PatchMapping("/{userId}")
-//    public String updateUser(@PathVariable("userId") Long id, @ModelAttribute("user") User user,
-//                             @RequestParam(required = false, name = "roles") Long[] roles) {
-//        userService.updateUser(user);
-//
-//        return "redirect:/admin";
-//    }
-//
-//    @PostMapping("/delete/{userId}")
-//    public String removeUser(@PathVariable("userId") Long id) {
-//        userService.removeUser(id);
-//        return "redirect:/admin";
-//    }
+
 
 
 }

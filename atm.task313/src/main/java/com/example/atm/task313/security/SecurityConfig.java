@@ -64,10 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/registration", "/login", "/").permitAll()
-//                .antMatchers("/user/**", "/admin/**", "/api/**").permitAll()
-//                .antMatchers("/css/**", "/js/**", "/img/**", "**/favicon.ico").anonymous()
                 .antMatchers("/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .antMatchers("/admin/**", "/api/**").access("hasRole('ROLE_ADMIN')")
+//                test-config
+//                .antMatchers("/user/**", "/admin/**", "/api/**").permitAll()
+//                .antMatchers("/css/**", "/js/**", "/img/**", "**/favicon.ico").permitAll()
                 .anyRequest()
                 .authenticated();
 

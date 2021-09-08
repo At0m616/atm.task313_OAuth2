@@ -56,7 +56,6 @@ document.getElementById('addNewUser').addEventListener('submit', submitFormNewUs
 
 function submitFormNewUser(event) {
     event.preventDefault();
-    // let rol = document.querySelector('#newRoles').getElementsByTagName('option')
 
     let newUser = {
         firstname: $("#newFirstName").val(),
@@ -91,6 +90,19 @@ const modalEdit = document.getElementById('editModal')
 const modalDelete = document.getElementById('deleteModal')
 let selectUserId
 
+function optionRole(e,v){
+    const roleArr = e.trimStart().split(" ")
+    console.log("roles: " + roleArr)
+    for(let  i of roleArr){
+        if (i === 'ADMIN'){
+            console.log("admin? "+(i === 'ADMIN'))
+            v[0].selected = true;
+        }else if(i === 'USER'){
+            console.log("user? "+(i === 'USER'))
+            v[1].selected = true;
+        }
+    }
+}
 
 allUsers.addEventListener('click', ev => {
     ev.preventDefault()
@@ -109,6 +121,7 @@ allUsers.addEventListener('click', ev => {
     let role = parent.querySelector('.mainTabRole').textContent
 
 
+
     if (deleteButtonClick) {
         console.log('ModalDelete: delete id=' + selectUserId)
 
@@ -118,6 +131,9 @@ allUsers.addEventListener('click', ev => {
         document.getElementById("delAge").value = age
         document.getElementById("delEmail").value = email
         document.getElementById("delRoles").value = role
+
+        const selectRole = document.getElementById("delRoles").getElementsByTagName('option')
+        optionRole(role, selectRole)
     }
 
     if(editButtonClick){
@@ -129,6 +145,9 @@ allUsers.addEventListener('click', ev => {
         document.getElementById("editAge").value = age
         document.getElementById("editEmail").value = email
         document.getElementById("editRoles").value = role
+
+        const selectRole = document.getElementById("editRoles").getElementsByTagName('option')
+        optionRole(role, selectRole)
     }
 })
 
@@ -159,33 +178,36 @@ function runModalEdit(e){
     console.log("runModalEdit")
     e.preventDefault()
     let modalEditButton = e.target.id === 'modal-edit-button'
+    let value = document.getElementById('editRoles').selectedOptions;
+    let selectedRoles = Array.from(value).map(({value}) => value);
 
-    if(modalEditButton){
+    if(modalEditButton) {
         let editUser = {
-            id:$("#editId").val(),
+            id: $("#editId").val(),
             firstname: $("#editFirstName").val(),
             lastname: $("#editLastName").val(),
             age: $("#editAge").val(),
             username: $("#editEmail").val(),
             password: $("#editPassword").val(),
-            roles: $("#editRoles").val()
+            roles: selectedRoles
+
         }
-        fetch(`http://localhost:8080/api/users/${selectUserId}`, {
+        fetch('http://localhost:8080/api/users', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;charset=UTF-8'
             },
             body: JSON.stringify(editUser)
         })
-            .then(
-                res => {
-                    res.json().then(
-                        editUser => {
-                            tableUsers.push(editUser)
-                            showUsers(tableUsers)
-                        })
-                })
+            .then(()=>{
+            fetch("http://localhost:8080/api/users")
+                .then(
+                    res => {
+                        res.json()
+                            .then(() => location.reload())
+                    })
+        })
 
     }
-
+    $('#editModal').modal();
 }

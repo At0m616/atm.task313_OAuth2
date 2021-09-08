@@ -2,26 +2,33 @@ console.log("test.main: OK")
 
 //All-Users
 let tableUsers = []
-const allUsers = document.querySelector("#adminTab")
+const allUsers = document.querySelector("#allUsersData")
+let temp = ""
 
-fetch("http://localhost:8080/api/users").then(
-    res => {
-        res.json().then(
-            data => {
-                if (data.length > 0) {
-                    data.forEach((user) => {
-                        tableUsers.push(user)
-                    })
-                    console.log(tableUsers)
-                    showUsers(tableUsers)
+showMainTable()
+
+function showMainTable() {
+    tableUsers = []
+    allUsers.innerHTML = ""
+    temp = ""
+    fetch("http://localhost:8080/api/users").then(
+        res => {
+            res.json().then(
+                data => {
+                    if (data.length > 0) {
+                        data.forEach((user) => {
+                            tableUsers.push(user)
+                        })
+                        console.log(tableUsers)
+                        showUsers(tableUsers)
+                    }
                 }
-            }
-        )
-    })
+            )
+        })
+}
 
 function showUsers(event) {
-    let temp = ""
-    console.log(event)
+    console.log("print AllUsers data")
 
     event.forEach((user) => {
         let userRole = "";
@@ -47,7 +54,7 @@ function showUsers(event) {
                             </td></tr>`
 
     })
-    document.getElementById('allUsersData').innerHTML = temp;
+    allUsers.innerHTML = temp;
 }
 
 
@@ -73,32 +80,26 @@ function submitFormNewUser(event) {
         },
         body: JSON.stringify(newUser)
     })
-        .then(
-        res => {
-            res.json().then(
-                newUser => {
-                    tableUsers.push(newUser)
-                    showUsers(tableUsers)
-                })
-        })
+        .then(() => showMainTable())
+         console.log('add new user')
     $('#myTab li:first-child a').tab('show')
 
 }
 
-//Edit-Delete-Modal-View
+//Edit-Delete-Modal
 const modalEdit = document.getElementById('editModal')
 const modalDelete = document.getElementById('deleteModal')
 let selectUserId
 
-function optionRole(e,v){
+function optionRole(e, v) {
     const roleArr = e.trimStart().split(" ")
     console.log("roles: " + roleArr)
-    for(let  i of roleArr){
-        if (i === 'ADMIN'){
-            console.log("admin? "+(i === 'ADMIN'))
+    for (let i of roleArr) {
+        if (i === 'ADMIN') {
+            console.log('role = ADMIN')
             v[0].selected = true;
-        }else if(i === 'USER'){
-            console.log("user? "+(i === 'USER'))
+        } else if (i === 'USER') {
+            console.log('role = USER')
             v[1].selected = true;
         }
     }
@@ -121,7 +122,6 @@ allUsers.addEventListener('click', ev => {
     let role = parent.querySelector('.mainTabRole').textContent
 
 
-
     if (deleteButtonClick) {
         console.log('ModalDelete: delete id=' + selectUserId)
 
@@ -136,7 +136,7 @@ allUsers.addEventListener('click', ev => {
         optionRole(role, selectRole)
     }
 
-    if(editButtonClick){
+    if (editButtonClick) {
         console.log('ModalEdit: edit id=' + selectUserId)
 
         document.getElementById("editId").value = selectUserId
@@ -168,20 +168,21 @@ function runModalDelete(e) {
         })
             .then(() => {
                 document.getElementById('tr-user-' + selectUserId).innerHTML = ""
+                console.log("user deleted")
             })
     }
 }
 
-modalEdit.addEventListener('click',runModalEdit)
+modalEdit.addEventListener('click', runModalEdit)
 
-function runModalEdit(e){
-    console.log("runModalEdit")
+function runModalEdit(e) {
+    console.log("runModalEdit...")
     e.preventDefault()
     let modalEditButton = e.target.id === 'modal-edit-button'
     let value = document.getElementById('editRoles').selectedOptions;
     let selectedRoles = Array.from(value).map(({value}) => value);
 
-    if(modalEditButton) {
+    if (modalEditButton) {
         let editUser = {
             id: $("#editId").val(),
             firstname: $("#editFirstName").val(),
@@ -199,15 +200,8 @@ function runModalEdit(e){
             },
             body: JSON.stringify(editUser)
         })
-            .then(()=>{
-            fetch("http://localhost:8080/api/users")
-                .then(
-                    res => {
-                        res.json()
-                            .then(() => location.reload())
-                    })
-        })
+            .then(() => showMainTable())
 
+        $('#editModal').modal('hide');
     }
-    $('#editModal').modal();
 }

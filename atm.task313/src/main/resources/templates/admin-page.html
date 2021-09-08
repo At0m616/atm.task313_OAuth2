@@ -17,10 +17,13 @@
 
 <!-- Navbar content head-->
 <nav class="navbar navbar-dark bg-dark btn-lg">
-    <div>
-        <b><a style="color: #eaeaea" th:utext="${user.username}">username</a></b>
+    <div th:if="${user!=null}">
+        <b><a style="color: #eaeaea" th:text="${user.username}"  >username</a></b>
         <a style="color: #eaeaea">with roles: </a>
-        <b><a style="color: #eaeaea" th:utext="${user.roles.toString().replace('[', '').replace(']', '')}">roles</a></b>
+        <b><a style="color: #eaeaea" th:text="${user.roles.toString().replace('[', '').replace(']', '')}">roles</a></b>
+    </div>
+    <div th:unless="${user!=null}">
+        <b style="color: #eaeaea">Anonymous</b>
     </div>
     <a style="color: darkgray" th:href="@{/logout}">Logout</a>
 </nav>
@@ -268,7 +271,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="DeleteModalTitle">Delete
                         user</h5>
-                    <button type="button" class="close" data-dismiss="modal"
+                    <button id="btnCloseModal" type="button" class="close" data-dismiss="modal"
                             aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

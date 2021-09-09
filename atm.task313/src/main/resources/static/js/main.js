@@ -33,7 +33,7 @@ function showUsers(event) {
     event.forEach((user) => {
         let userRole = "";
         for (let i = 0; i < user.roles.length; i++) {
-            userRole += " " + user.roles[i].name.substring(5);
+            userRole += " " + user.roles[i].name.substring(5)
         }
         temp += `<tr data-id="${user.id}" id="tr-user-${user.id}">
                             <td class="mainTabId" id="mainTabId${user.id}">${user.id}</td>

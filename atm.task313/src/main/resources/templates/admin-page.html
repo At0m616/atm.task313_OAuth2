@@ -40,10 +40,10 @@
             <ul class="nav nav-pills flex-column">
                 <div class="list-group" id="list-tab" role="tablist" aria-orientation="vertical">
                     <a class="list-group-item list-group-item-action active"
-                       id="list-admin-list"  href="/admin"
+                       id="list-admin-list"  onclick="location.href='/admin'"
                        role="tab" >Admin</a>
                     <a class="list-group-item list-group-item-action"
-                       id="list-user-list"  href="/user"
+                       id="list-user-list"  onclick="location.href='/user'"
                        role="tab" >User</a>
                 </div>
             </ul>
@@ -72,7 +72,7 @@
             <!-- Блоки с контентом  Tab panes -->
             <div class="tab-content" id="myTabContent">
                         <!-- Первый блок (он отображается по умолчанию, т.к. имеет классы show и active) -->
-                <div class="tab-pane fade show active" id="adminTab" role="tabpanel" aria-labelledby="adminTab">
+            <div class="tab-pane fade show active" id="adminTab" role="tabpanel" aria-labelledby="adminTab">
 
             <div class="card">
                 <div class="card-block">
@@ -92,8 +92,7 @@
                             <th>Delete</th>
                         </tr>
                         </thead>
-
-                                <!-- Начало таблицы all users-->
+                        <!-- Начало таблицы all users-->
                         <tbody id="allUsersData">
 
                         </tbody>

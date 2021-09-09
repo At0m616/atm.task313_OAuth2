@@ -8,8 +8,10 @@ import com.example.atm.task313.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +51,13 @@ public class AdminRest {
                 : new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/users/im")
+    public ResponseEntity<User> userData(Principal principal) {
+        var user = userService.findUserByEmail(principal.getName());
+        return user == null
+                ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
+                : new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
     @PostMapping("/users")
     public ResponseEntity<User> createNewUser(@RequestBody UserSimpleDto userDto) {

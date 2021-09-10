@@ -40,6 +40,8 @@ public class UserServiceImpl implements UserService {
             userAdmin.setUsername("t@t");
             userAdmin.setPassword(bCryptPasswordEncoder.encode("qqq"));
             userAdmin.setFirstname("admin");
+            userAdmin.setLastname("admin");
+            userAdmin.setAge(11);
             String[] role = {"ROLE_ADMIN"};
             userAdmin.setRoles(roleService.findRolesSetByName(role));
             userDao.save(userAdmin);
@@ -73,19 +75,11 @@ public class UserServiceImpl implements UserService {
                 e.printStackTrace();
             }
         }
-        var userFindDB = findUserById(user.getId());
 
-        userFindDB.setFirstname(user.getFirstname());
-        userFindDB.setLastname(user.getLastname());
-        userFindDB.setAge(user.getAge());
-        userFindDB.setUsername(user.getUsername());
-        userFindDB.setRoles(user.getRoles());
-        if (user.getPassword().equals("") || user.getPassword() == null) {
+        if (!user.getPassword().equals("") || user.getPassword() != null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        }else {
-            userFindDB.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
-        userDao.save(userFindDB);
+        userDao.save(user);
     }
 
     @Transactional(readOnly = true)

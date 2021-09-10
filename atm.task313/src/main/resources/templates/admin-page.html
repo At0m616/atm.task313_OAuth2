@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!--    <script type="text/javascript" src="webjars/jquery/3.6.0/src/jquery.js"></script>-->
+    <!--    <script type="text/javascript" src="webjars/jquery/3.6.0/src/jquery.js"></script>-->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -18,7 +18,7 @@
 <!-- Navbar content head-->
 <nav class="navbar navbar-dark bg-dark btn-lg">
     <div th:if="${user!=null}">
-        <b><a style="color: #eaeaea" th:text="${user.username}"  >username</a></b>
+        <b><a style="color: #eaeaea" th:text="${user.username}">username</a></b>
         <a style="color: #eaeaea">with roles: </a>
         <b><a style="color: #eaeaea" th:text="${user.roles.toString().replace('[', '').replace(']', '')}">roles</a></b>
     </div>
@@ -37,155 +37,211 @@
         <!-- Container left-roles panel-->
         <div class="col-lg-2 col-sm-2 bg-white sidebar flex-column" style="padding-left: 0px; padding-right: 0px">
             <br>
-            <ul class="nav nav-pills flex-column">
-                <div class="list-group" id="list-tab" role="tablist" aria-orientation="vertical">
-                    <a class="list-group-item list-group-item-action active"
-                       id="list-admin-list"  onclick="location.href='/admin'"
-                       role="tab" >Admin</a>
-                    <a class="list-group-item list-group-item-action"
-                       id="list-user-list"  onclick="location.href='/user'"
-                       role="tab" >User</a>
-                </div>
-            </ul>
-
-        </div>
-
-        <!-- Container right menu main-->
-        <div class="col-lg-10 col-sm-10   bg-light px-5 vh-100">
-            <br>
-            <h2><b> Admin Panel </b></h2>
-
-            <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist" id="myTab">
-                <!-- Первая вкладка (активная) -->
-                <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" id="1tab" href="#adminTab"
-                       aria-controls="adminTab" aria-selected="true" role="tab">User table</a>
-                </li>
-                <!-- Вторая вкладка -->
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="tab" id="2tab" href="#createUser"
-                       aria-controls="newUser" aria-selected="false" role="tab">New User</a>
-                </li>
-            </ul>
-
-            <!-- Блоки с контентом  Tab panes -->
-            <div class="tab-content" id="myTabContent">
-                        <!-- Первый блок (он отображается по умолчанию, т.к. имеет классы show и active) -->
-            <div class="tab-pane fade show active" id="adminTab" role="tabpanel" aria-labelledby="adminTab">
-
-            <div class="card">
-                <div class="card-block">
-                    <h4 class="card-header">
-                        All users
-                    </h4>
-                    <table class="table table-hover table-flush" id="tableUsers">
-                        <thead>
-                        <tr style="background-color: #dedede">
-                            <th>ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Age</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                        </thead>
-                        <!-- Начало таблицы all users-->
-                        <tbody id="allUsersData">
-
-                        </tbody>
-                    </table>
-                </div>
+            <div class="list-group" id="list-tab" role="tablist">
+                <!--ADMIN PAGE-->
+                <a class="list-group-item list-group-item-action active" id="list-admin-list"
+                   data-toggle="list" href="#mainTab" role="tab" aria-controls="admin">Admin</a>
+                <!--USER PAGE-->
+                <a class="list-group-item list-group-item-action" id="list-user-list"
+                   data-toggle="list" href="#infoAboutUser" role="tab" aria-controls="user">User</a>
             </div>
-                </div>
+        </div>
+        <!-- Container right menu main-->
+        <div class="col-lg-10  bg-light px-5 vh-100">
+
+            <div class="container-fluid vh-100">
+                <!-- Блоки с контентом  Tab panes -->
+                <div class="tab-content" id="content">
+
+                    <!--ADMIN PAGE Первый блок-->
+                    <div class="tab-pane fade show active" id="mainTab" role="tabpanel" aria-labelledby="mainTab">
+                        <div class="pt-2"></div>
+                        <h2><b> Admin Panel </b></h2>
+                        <div class="pt-2"></div>
+
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist" id="myTab">
+                            <!-- Первая вкладка (активная) -->
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" id="1tab" href="#adminTab"
+                                   aria-controls="adminTab" aria-selected="true" role="tab">User table</a>
+                            </li>
+                            <!-- Вторая вкладка -->
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" id="2tab" href="#createUser"
+                                   aria-controls="newUser" aria-selected="false" role="tab">New User</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="tabContent">
+                            <!--------------------Вкладка All Users--------------------------------->
+                            <div class="tab-pane fade show active" id="adminTab" role="tabpanel"
+                                 aria-labelledby="adminTab">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <h4 class="card-header">
+                                            All users
+                                        </h4>
+                                        <table class="table table-hover table-flush" id="tableUsers">
+                                            <thead>
+                                            <tr style="background-color: #dedede">
+                                                <th>ID</th>
+                                                <th>First Name</th>
+                                                <th>Last Name</th>
+                                                <th>Age</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
+                                            </tr>
+                                            </thead>
+                                            <!-- Начало таблицы all users-->
+                                            <tbody id="allUsersData">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--------------------Вкладка  NEW USER---------------------------------->
+                            <div class="tab-pane fade text-center" id="createUser" role="tabpanel"
+                                 aria-labelledby="createUser-tab">
+                                <div class="card">
+                                    <div class="card-block">
+                                        <table class="table  table-flush">
+                                            <thead>
+                                            <tr style="background-color: #eeeeee">
+                                                <th>
+                                                    <p class="h4" valign="center" align="left"> Add new user </p>
+                                                </th>
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <!--add new user-->
+                                                    <div class="row">
+                                                        <div class="col-sm-3"></div>
+                                                        <div class="col-sm-6">
+
+                                                            <form id="addNewUser">
+                                                                <div class="form-group  text-center">
+                                                                    <label class="col-form-label" for="NewFirstName"><b>First
+                                                                        name</b></label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="newFirstName" placeholder="First name"
+                                                                           required
+                                                                           maxlength="20">
+                                                                </div>
+                                                                <div class="form-group text-center">
+                                                                    <label for="NewLastName"><b>Last name</b></label>
+                                                                    <input type="text" class="form-control"
+                                                                           id="newLastName" placeholder="Last name"
+                                                                           required
+                                                                           maxlength="20">
+                                                                </div>
+                                                                <div class="form-group  text-center">
+                                                                    <label for="NewAge"><b>Age</b></label>
+                                                                    <input type="number" class="form-control"
+                                                                           id="newAge"
+                                                                           placeholder="Age" required min="1" max="130">
+                                                                </div>
+                                                                <div class="form-group text-center">
+                                                                    <label for="NewEmail"><b>Email</b></label>
+                                                                    <input type="email" class="form-control"
+                                                                           id="newEmail" placeholder="Email" required>
+
+                                                                </div>
+                                                                <div class="form-group text-center">
+                                                                    <label for="NewPassword"><b>Password</b></label>
+                                                                    <input type="password" class="form-control"
+                                                                           id="newPassword" placeholder="Password"
+                                                                           required
+                                                                           minlength="3">
+                                                                </div>
+                                                                <div class="form-group text-center">
+                                                                    <label><b>Roles: </b></label>
+
+                                                                    <select class="form-control" multiple id="newRoles"
+                                                                            size="3"
+                                                                            name="newRoles" required>
+                                                                        <option id="role-admin" value="ROLE_ADMIN">Admin
+                                                                        </option>
+                                                                        <option id="role-user" value="ROLE_USER">User
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                                <button class="btn btn-success " type="submit"
+                                                                        id="buttonNewUser">Add New
+                                                                    User
+                                                                </button>
+                                                            </form>
+                                                            <br>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
 
 
+                        </div>
 
-                <!--------------------Второй блок------------->
-                <div class="tab-pane fade text-center" id="createUser" role="tabpanel" aria-labelledby="createUser-tab">
+                    </div>
+
+
+                    <!--USER PAGE Второй блок-->
+                    <div class="tab-pane fade" id="infoAboutUser" role="tabpanel" aria-labelledby="infoAboutUser-list">
+
+                        <div class="pt-2"></div>
+                        <br>
+                        <h2><b> User information-page </b></h2>
+                        <div class="pt-2"></div>
+
                         <div class="card">
                             <div class="card-block">
-                                <table class="table  table-flush">
+                                <h4 class="card-header" style="background-color: #a0a0a0"> About User </h4>
+                                <table class="table table-hover table-flush">
                                     <thead>
-                                    <tr style="background-color: #eeeeee">
-                                        <th>
-                                            <p class="h4" valign="center" align="left"> Add new user </p>
-                                        </th>
+                                    <tr style="background-color: #dedede">
+                                        <th>ID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Age</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
                                     </tr>
                                     </thead>
+                                    <tbody id="infoAboutUserTable">
 
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                <!--add new user-->
-                        <div class="row">
-                            <div class="col-sm-3"></div>
-                            <div class="col-sm-6">
-
-                                <form id="addNewUser">
-                                    <div class="form-group  text-center">
-                                        <label class="col-form-label" for="NewFirstName"><b>First name</b></label>
-                                        <input type="text" class="form-control"
-                                               id="newFirstName" placeholder="First name" required maxlength="20">
-                                    </div>
-                                    <div class="form-group text-center">
-                                        <label for="NewLastName"><b>Last name</b></label>
-                                        <input type="text"  class="form-control"
-                                               id="newLastName" placeholder="Last name" required maxlength="20">
-                                    </div>
-                                    <div class="form-group  text-center">
-                                        <label for="NewAge"><b>Age</b></label>
-                                        <input type="number" class="form-control" id="newAge"
-                                               placeholder="Age" required min="1" max="130">
-                                    </div>
-                                    <div class="form-group text-center">
-                                        <label for="NewEmail"><b>Email</b></label>
-                                        <input type="email" class="form-control"
-                                               id="newEmail" placeholder="Email" required>
-
-                                    </div>
-                                    <div class="form-group text-center">
-                                        <label for="NewPassword"><b>Password</b></label>
-                                        <input type="password"  class="form-control"
-                                               id="newPassword" placeholder="Password" required minlength="3">
-                                    </div>
-                                    <div class="form-group text-center">
-                                        <label><b>Roles: </b></label>
-
-                                        <select class="form-control" multiple id="newRoles" size="3"
-                                                  name="newRoles" required>
-                                            <option id="role-admin" value= "ROLE_ADMIN">Admin</option>
-                                            <option id="role-user" value= "ROLE_USER">User</option>
-                                        </select>
-                                    </div>
-                                    <button class="btn btn-success " type="submit" id="buttonNewUser">Add New
-                                        User
-                                    </button>
-                                </form>
-                                <br>
-                            </div>
-                        </div>
-                                        </td>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+
                     </div>
+
                 </div>
 
 
             </div>
+
         </div>
+
 
     </div>
 
 </div>
 
-    <!-- Modal EDIT-->
-    <form class="modal-edit-form" id="modal-edit-form">
-    <div class="modal fade"  tabindex="-1" role="dialog" id="editModal"
+<!-- Modal EDIT-->
+<form class="modal-edit-form" id="modal-edit-form">
+    <div class="modal fade" tabindex="-1" role="dialog" id="editModal"
          aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -202,7 +258,7 @@
                     <div class="form-group">
                         <label for="editId">Id</label>
                         <input type="number" class="form-control" id="editId"
-                               name="id"  readonly>
+                               name="id" readonly>
                     </div>
                     <div class="form-group">
                         <label for="editFirstName">First name</label>
@@ -240,8 +296,8 @@
                         <select multiple size="3" class="form-control"
                                 id="editRoles"
                                 name="roles" required>
-                            <option value= "ROLE_ADMIN"> ADMIN </option>
-                            <option value= "ROLE_USER"> USER </option>
+                            <option value="ROLE_ADMIN"> ADMIN</option>
+                            <option value="ROLE_USER"> USER</option>
                         </select>
                     </div>
 
@@ -258,11 +314,11 @@
             </div>
         </div>
     </div>
-        </form>
-    <!-- Modal EDIT ends-->
+</form>
+<!-- Modal EDIT ends-->
 
-    <!-- Modal DELETE-->
-    <form class="modal-delete-form" id="modal-delete-form">
+<!-- Modal DELETE-->
+<form class="modal-delete-form" id="modal-delete-form">
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
          aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -319,8 +375,8 @@
                         <select multiple size="3" class="form-control"
                                 id="delRoles"
                                 name="roles" disabled>
-                            <option value= "ROLE_ADMIN"> ADMIN </option>
-                            <option value= "ROLE_USER"> USER </option>
+                            <option value="ROLE_ADMIN"> ADMIN</option>
+                            <option value="ROLE_USER"> USER</option>
                         </select>
 
                     </div>
@@ -338,9 +394,8 @@
             </div>
         </div>
     </div>
-                    </form>
-    <!-- Modal DELETE ends-->
-
+</form>
+<!-- Modal DELETE ends-->
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

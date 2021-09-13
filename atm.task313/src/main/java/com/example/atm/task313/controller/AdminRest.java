@@ -1,5 +1,6 @@
 package com.example.atm.task313.controller;
 
+
 import com.example.atm.task313.dto.UserSimpleDto;
 import com.example.atm.task313.model.Role;
 import com.example.atm.task313.model.User;
@@ -8,7 +9,6 @@ import com.example.atm.task313.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -42,7 +42,7 @@ public class AdminRest {
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-        if(userId==null){
+        if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         var user = userService.findUserById(userId);
@@ -68,7 +68,7 @@ public class AdminRest {
         var user = new User(userDto);
         user.setRoles(roleSet);
         userService.saveUser(user);
-        return new ResponseEntity<>(user,HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PutMapping("/users")
@@ -83,16 +83,16 @@ public class AdminRest {
         userService.updateUser(user);
         var updatedUser = userService.findUserById(user.getId());
 
-        return new ResponseEntity<>(updatedUser,HttpStatus.OK);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<User> removeUser(@PathVariable Long userId) {
-        if(userId==null){
+        if (userId == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         var user = userService.findUserById(userId);
-        if (user == null){
+        if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         userService.removeUser(userId);

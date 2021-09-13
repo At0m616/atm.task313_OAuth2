@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
 
     private final RoleDao roleDao;
 

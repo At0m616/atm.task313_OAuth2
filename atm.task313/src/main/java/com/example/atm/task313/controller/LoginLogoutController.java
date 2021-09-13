@@ -18,9 +18,5 @@ public class LoginLogoutController {
     }
 
 
-    @GetMapping("/")
-    public String page(){
-        return "index";
-    }
 
 }

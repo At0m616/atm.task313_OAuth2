@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     private final UserDao userDao;
+
     @Autowired
     public UserDetailServiceImpl(UserDao userDao) {
         this.userDao = userDao;
@@ -20,7 +21,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userDao.findUserByUsername(username);
-        if (user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Unknown user " + username);
         }
 

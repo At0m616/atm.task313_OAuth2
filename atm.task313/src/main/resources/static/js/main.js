@@ -81,10 +81,11 @@ function submitFormNewUser(event) {
         body: JSON.stringify(newUser)
     })
         .then(() => showMainTable())
-         console.log('add new user')
+    console.log('add new user')
     $('#myTab li:first-child a').tab('show')
 
 }
+
 //Show One User
 const oneUserElement = document.getElementById("infoAboutUserTable")
 let oneUserTemp = ""

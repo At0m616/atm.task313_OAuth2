@@ -1,7 +1,6 @@
 package com.example.atm.task313.dto;
 
 
-
 public class UserSimpleDto {
 
 

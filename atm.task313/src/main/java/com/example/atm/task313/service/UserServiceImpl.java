@@ -1,5 +1,6 @@
 package com.example.atm.task313.service;
 
+
 import com.example.atm.task313.dao.UserDao;
 import com.example.atm.task313.model.Role;
 import com.example.atm.task313.model.User;
@@ -29,13 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @PostConstruct
-    public void addDefaultUserAndRolesIfNotExist(){
+    public void addDefaultUserAndRolesIfNotExist() {
         if ((roleService.findById(1L) == null)
                 || (roleService.findById(2L) == null)) {
             roleService.save(new Role(1L, "ROLE_ADMIN"));
             roleService.save(new Role(2L, "ROLE_USER"));
         }
-        if(userDao.findUserByUsername("t@t") == null){
+        if (userDao.findUserByUsername("t@t") == null) {
             var userAdmin = new User();
             userAdmin.setUsername("t@t");
             userAdmin.setPassword(bCryptPasswordEncoder.encode("qqq"));
@@ -48,13 +49,14 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
     @Transactional
     @Override
     public void saveUser(User user) {
 
         if (userDao.findUserByUsername(user.getUsername()) == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-                userDao.save(user);
+            userDao.save(user);
         } else {
             try {
                 throw new Exception("User exists");

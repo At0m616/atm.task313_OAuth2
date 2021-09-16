@@ -49,12 +49,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional
     @Override
-    public Set<Role> findRolesSetById(Long[] id) {
-        return roleDao.findRolesSetById(id);
-    }
-
-    @Override
-    public Set<Role> findRolesSetByName(String[] names) {
-        return roleDao.findRoleSetByName(names);
+    public Set<Role> findRolesSetByName(List<String> names) {
+        return roleDao.findRolesByNameIn(names);
     }
 }

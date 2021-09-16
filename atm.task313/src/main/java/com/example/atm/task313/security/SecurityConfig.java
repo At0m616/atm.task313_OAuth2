@@ -45,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
-
         http.formLogin()
                 .loginPage("/login")
                 .failureUrl("/login-error")
@@ -66,9 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration", "/login", "/").permitAll()
                 .antMatchers("/user/**").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
                 .antMatchers("/admin/**", "/api/**").access("hasRole('ROLE_ADMIN')")
-//                test-config
-//                .antMatchers("/user/**", "/admin/**", "/api/**").permitAll()
-//                .antMatchers("/css/**", "/js/**", "/img/**", "**/favicon.ico").permitAll()
                 .anyRequest()
                 .authenticated();
 

@@ -17,9 +17,7 @@ public interface RoleService {
 
     Role findByName(String name);
 
-    Set<Role> findRolesSetById(Long[] id);
-
-    Set<Role> findRolesSetByName(String[] names);
+    Set<Role> findRolesSetByName(List<String> names);
 
     List<Role> findAllRoles();
 }

@@ -5,12 +5,14 @@ import com.example.atm.task313.dao.UserDao;
 import com.example.atm.task313.model.Role;
 import com.example.atm.task313.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -36,14 +38,14 @@ public class UserServiceImpl implements UserService {
             roleService.save(new Role(1L, "ROLE_ADMIN"));
             roleService.save(new Role(2L, "ROLE_USER"));
         }
-        if (userDao.findUserByUsername("t@t") == null) {
+        if (userDao.findDistinctByUsername("t@t") == null) {
             var userAdmin = new User();
             userAdmin.setUsername("t@t");
             userAdmin.setPassword(bCryptPasswordEncoder.encode("qqq"));
             userAdmin.setFirstname("admin");
             userAdmin.setLastname("admin");
             userAdmin.setAge(11);
-            String[] role = {"ROLE_ADMIN"};
+            List<String> role = Collections.singletonList("ROLE_ADMIN");
             userAdmin.setRoles(roleService.findRolesSetByName(role));
             userDao.save(userAdmin);
         }
@@ -54,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
 
-        if (userDao.findUserByUsername(user.getUsername()) == null) {
+        if (userDao.findDistinctByUsername(user.getUsername()) == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userDao.save(user);
         } else {
@@ -93,7 +95,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public User findUserByEmail(String name) {
-        var userFindDB = userDao.findUserByUsername(name);
+        var userFindDB = userDao.findDistinctByUsername(name);
         if (userFindDB == null) {
             throw new UsernameNotFoundException("User not exist");
         }
@@ -110,7 +112,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public List<User> findAllUsers() {
-        return userDao.findAll();
+        return userDao.findAll(Sort.by(Sort.Direction.ASC, "firstname"));
     }
 
 }

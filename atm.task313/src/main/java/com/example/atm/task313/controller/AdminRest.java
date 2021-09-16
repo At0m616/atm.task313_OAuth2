@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +33,6 @@ public class AdminRest {
     @GetMapping("/users")
     public ResponseEntity<List<User>> showAllUsers() {
         List<User> userList = userService.findAllUsers();
-        userList.sort(Comparator.comparing(User::getUsername));
         return userList.isEmpty()
                 ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
                 : new ResponseEntity<>(userList, HttpStatus.OK);

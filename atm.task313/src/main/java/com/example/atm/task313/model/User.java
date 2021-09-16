@@ -1,6 +1,8 @@
 package com.example.atm.task313.model;
 
 import com.example.atm.task313.dto.UserSimpleDto;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -41,6 +43,7 @@ public class User implements UserDetails {
     @NotBlank(message = "password not empty")
     private String password;
 
+    @Fetch(FetchMode.JOIN)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "boot_user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

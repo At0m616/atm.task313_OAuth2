@@ -19,8 +19,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userDao.findDistinctByUsername(username);
+    public UserDetails loadUserByUsername(String username)  {
+        var user = userDao.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("Unknown user " + username);
         }

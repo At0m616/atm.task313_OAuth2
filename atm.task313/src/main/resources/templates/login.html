@@ -24,6 +24,9 @@
     <form method="POST" th:action="@{/login}">
         <div class="col-sm-8half  form-group">
             <h2><b>Please sign in</b></h2>
+            <div>
+                <h4><a th:href="@{/oauth2/authorization/google}">Login in with Google</a></h4>
+            </div>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                    placeholder="Email address" name="j_username">
 

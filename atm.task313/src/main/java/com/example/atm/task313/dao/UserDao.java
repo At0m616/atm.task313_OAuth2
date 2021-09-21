@@ -12,10 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
 
-    @Query("select distinct u from User u JOIN FETCH u.roles where u.id = :id")
-    User findUserById(@Param("id") Long id);
-
-    User findDistinctByUsername(String username);
+    User findByUsername(String username);
 
     void deleteById(long id);
 }

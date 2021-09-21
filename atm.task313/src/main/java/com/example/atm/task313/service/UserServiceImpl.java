@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -38,7 +39,7 @@ public class UserServiceImpl implements UserService {
             roleService.save(new Role(1L, "ROLE_ADMIN"));
             roleService.save(new Role(2L, "ROLE_USER"));
         }
-        if (userDao.findDistinctByUsername("t@t") == null) {
+        if (userDao.findByUsername("t@t") == null) {
             var userAdmin = new User();
             userAdmin.setUsername("t@t");
             userAdmin.setPassword(bCryptPasswordEncoder.encode("qqq"));
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
 
-        if (userDao.findDistinctByUsername(user.getUsername()) == null) {
+        if (userDao.findByUsername(user.getUsername()) == null) {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             userDao.save(user);
         } else {
@@ -80,7 +81,11 @@ public class UserServiceImpl implements UserService {
             }
         }
 
-        if (!user.getPassword().equals("") || user.getPassword() != null) {
+        var userFindDB = findUserById(user.getId());
+
+        if (user.getPassword().equals("") || user.getPassword() == null) {
+            user.setPassword(userFindDB.getPassword());
+        }else {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
         userDao.save(user);
@@ -95,11 +100,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public User findUserByEmail(String name) {
-        var userFindDB = userDao.findDistinctByUsername(name);
-        if (userFindDB == null) {
-            throw new UsernameNotFoundException("User not exist");
-        }
-        return userFindDB;
+        return userDao.findByUsername(name);
     }
 
 
@@ -114,5 +115,7 @@ public class UserServiceImpl implements UserService {
     public List<User> findAllUsers() {
         return userDao.findAll(Sort.by(Sort.Direction.ASC, "firstname"));
     }
+
+
 
 }
